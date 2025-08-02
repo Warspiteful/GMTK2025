@@ -1,21 +1,58 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Line : MonoBehaviour
 {
     [SerializeField] private LineRenderer m_renderer;
 
-    Mesh mesh;
+
+
+    [SerializeField] PolygonCollider2D captureZonePrefab;
+
+    [SerializeField] EdgeCollider2D edgeCollider2D;
+
+    bool wasCollided = false;
+
+    public bool WasCollided() { return wasCollided;  }
 
     public void SetPosition(Vector2 position)
     {
         if (!CanAppend(position)) return;
-        if (CheckOverlap(position))
-        {
-            MakeMesh();
-        }
+
         m_renderer.positionCount++;
         m_renderer.SetPosition(m_renderer.positionCount - 1, position);
+        MakeLine();
+    }
+
+    public bool CheckFormLoop(Vector2 position)
+    {
+        if (CheckOverlap(position))
+        {
+            MakeCaptureMesh();
+            return true;
+        }
+        return false;
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        wasCollided = true;
+    }
+
+    private void MakeLine()
+    {
+        List<Vector2> pointsAsVector2 = new List<Vector2>();
+
+        for (int i = 0; i < m_renderer.positionCount - 1; i++)
+        {
+            Vector3 linePoint = m_renderer.GetPosition(i);
+            linePoint -= transform.position;
+            pointsAsVector2.Add(linePoint);
+        }
+
+        edgeCollider2D.SetPoints(pointsAsVector2);
     }
 
     private bool CanAppend(Vector2 pos)
@@ -25,10 +62,11 @@ public class Line : MonoBehaviour
         return Vector2.Distance(m_renderer.GetPosition(m_renderer.positionCount - 1), pos) > DrawManager.RESOLUTION;
     }
 
-    public void MakeMesh()
+    public void MakeCaptureMesh()
     {
 
-        PolygonCollider2D polygonCollider2D = gameObject.AddComponent<PolygonCollider2D>();
+        Destroy(edgeCollider2D);
+        PolygonCollider2D polygonCollider2D = Instantiate(captureZonePrefab, transform.position, Quaternion.identity, transform);
         Vector3[] points = new Vector3[m_renderer.positionCount];
         m_renderer.GetPositions(points);
 
@@ -41,18 +79,21 @@ public class Line : MonoBehaviour
         }
         Vector2[] pointsAsVector2 = new Vector2[m_renderer.positionCount];
         for (int i = 0; i < m_renderer.positionCount - 1; i++)
-    {
-            pointsAsVector2[i] = points[i]; 
-    }        
+        {
+            pointsAsVector2[i] = points[i];
+        }
         polygonCollider2D.SetPath(0, pointsAsVector2);
 
+        List<Collider2D> colliderList = new List<Collider2D>();
+        Physics2D.OverlapCollider(polygonCollider2D, colliderList);
+        captureColliders = colliderList.ToHashSet();
     }
 
+    
+     private HashSet<Collider2D> captureColliders = new HashSet<Collider2D>();
 
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        Debug.Log(collision.gameObject.name);
-    }
+     public HashSet<Collider2D> GetColliders () { return captureColliders; }
+
     private bool CheckOverlap(Vector2 position)
     {
         if (m_renderer.positionCount < 1)
