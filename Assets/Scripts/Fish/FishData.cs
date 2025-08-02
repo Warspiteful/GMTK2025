@@ -1,16 +1,11 @@
 using UnityEngine;
 
-public class FishData : MonoBehaviour
+[CreateAssetMenu]
+public class FishData : ScriptableObject
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    public int expGiven = 1;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public int movementSpeed = 1;
+
+    public int numOfLoopsNeeded = 5;
 }

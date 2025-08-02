@@ -116,6 +116,7 @@ GameObject:
   - component: {fileID: 6828216723854413032}
   - component: {fileID: 4558880397723551418}
   - component: {fileID: 2077104385515948561}
+  - component: {fileID: 6798775904530280138}
   m_Layer: 0
   m_Name: Feesh
   m_TagString: Untagged
@@ -285,8 +286,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   numOfLoopsNeeded: 5
+  expGiven: 1
   debugMode: 1
   debugText: {fileID: 8633848166134381405}
+--- !u!114 &6798775904530280138
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4869078164478909969}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e0a903dcc3e7c64da3f3b2ba88d45ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  captureable: {fileID: 2077104385515948561}
+  moveable: {fileID: 4558880397723551418}
 --- !u!1 &7763239786597439151
 GameObject:
   m_ObjectHideFlags: 0
