@@ -24,7 +24,18 @@ public class DrawManager : MonoBehaviour
 
         if (Input.GetMouseButton(0))
         {
-            m_currentLine.SetPosition(mousePos);
+            if (m_currentLine != null)
+            {
+                m_currentLine.SetPosition(mousePos);
+            }
+        }
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            if (m_currentLine != null)
+            {
+                Destroy(m_currentLine.gameObject);
+            }
         }
     }
 }
