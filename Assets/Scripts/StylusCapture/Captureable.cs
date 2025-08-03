@@ -30,7 +30,7 @@ public class Captureable : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI debugText;
 
-    void Start()
+    void OnEnable()
     {
         debugText.text = (numOfLoopsNeeded - currentNumberOfLoops).ToString();   
     }
@@ -40,6 +40,7 @@ public class Captureable : MonoBehaviour
         debugText.text = (numOfLoopsNeeded - m_currentNumberOfLoops).ToString();
         if (m_currentNumberOfLoops >= numOfLoopsNeeded)
         {
+            onCapture?.Invoke();
             return true;
         }
 

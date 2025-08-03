@@ -9,23 +9,61 @@ public class FishManager : MonoBehaviour
     [SerializeField] private FishObjectPool pool;
     public List<FishWave> fishWaves;
 
+    private Queue<FishWave> fishWaveQueue;
+
     public FishObject fishPrefab;
     FishWave currentWave;
+
+    private int m_numOfFishRemaining;
+
+    private Coroutine m_spawnRoutine;
+
+    public int numOfFish
+    {
+        get
+        {
+            return m_numOfFishRemaining;
+        }
+        set
+        {
+            m_numOfFishRemaining = value;
+            if (m_numOfFishRemaining <= 0)
+            {
+                HandleWaveFinish();
+            }
+        }
+    }
+
+    private void HandleWaveFinish()
+    {
+        StartCoroutine(Utils.timer(3, SpawnNextWave));
+    }
+
     public void Start()
     {
-        if (fishWaves.Count != 0)
-        {
-            currentWave = fishWaves[0];
-        }
+        fishWaveQueue = new Queue<FishWave>(fishWaves);
+        StartCoroutine(Utils.timer(3, SpawnNextWave));
+    }
 
-        foreach (FishWave.FishSpawn wave in currentWave.fishSpawns)
+    public void SpawnNextWave()
+    {
+        if (fishWaveQueue.Count == 0)
         {
-            for (int i = 0; i < wave.numberOfFish; i++)
+            Debug.Log("Waves Finished");
+        }
+        else
+        {
+            currentWave = fishWaveQueue.Dequeue();
+            foreach (FishWave.FishSpawn wave in currentWave.fishSpawns)
             {
-                FishObject obj = pool.GetPooledObject();
-                obj.transform.position = Utils.GetRandomPositionInView();
-                obj.Initialize(wave.fish);
-                obj.gameObject.SetActive(true);
+                for (int i = 0; i < wave.numberOfFish; i++)
+                {
+                    FishObject obj = pool.GetPooledObject();
+                    obj.transform.position = Utils.GetRandomPositionInView();
+                    obj.Initialize(wave.fish, ()=>numOfFish--);
+                    obj.gameObject.SetActive(true);
+                    numOfFish++;
+                }
             }
         }
     }

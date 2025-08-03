@@ -889,9 +889,10 @@ MonoBehaviour:
   fishWaves:
   - fishSpawns:
     - fish: {fileID: 11400000, guid: 39a3ab297d964e14295d638ee6ad4778, type: 2}
-      numberOfFish: 3
+      numberOfFish: 1
+  - fishSpawns:
     - fish: {fileID: 11400000, guid: b02122a4fed6de441b7268b708d3001a, type: 2}
-      numberOfFish: 2
+      numberOfFish: 1
   fishPrefab: {fileID: 6798775904530280138, guid: 59e684b06ad629141b8ba7b404810a2d, type: 3}
 --- !u!4 &1840526037
 Transform:
