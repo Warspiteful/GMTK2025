@@ -12,12 +12,37 @@ public class FishManager : MonoBehaviour
     private Queue<FishWave> fishWaveQueue;
 
     public FishObject fishPrefab;
-    FishWave currentWave;
+
+    private FishWave m_currentWave;
+    FishWave currentWave
+    {
+        set
+        {
+            m_currentWave = value;
+            onWaveChange?.Invoke();
+        }
+        get
+        {
+            return m_currentWave;
+        }
+    }
+
+    public Action onWaveChange;
 
     private int m_numOfFishRemaining;
 
     private Coroutine m_spawnRoutine;
 
+
+    public int GetWaveNumber()
+    {
+        return fishWaves.Count - fishWaveQueue.Count;
+    }
+
+    public int GetWaveCount()
+    {
+        return fishWaves.Count;
+    }
     public int numOfFish
     {
         get
