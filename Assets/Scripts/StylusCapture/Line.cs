@@ -7,8 +7,8 @@ public class Line : MonoBehaviour
 {
     [SerializeField] private LineRenderer m_renderer;
 
-
-
+    [SerializeField] private int maxPoints;
+        
     [SerializeField] PolygonCollider2D captureZonePrefab;
 
     [SerializeField] EdgeCollider2D edgeCollider2D;
@@ -21,8 +21,21 @@ public class Line : MonoBehaviour
     {
         if (!CanAppend(position)) return;
 
-        m_renderer.positionCount++;
-        m_renderer.SetPosition(m_renderer.positionCount - 1, position);
+        if (m_renderer.positionCount < maxPoints)
+        {
+            Debug.Log("MAX: " + maxPoints);
+            Debug.Log(m_renderer.positionCount);
+            m_renderer.positionCount++;
+            m_renderer.SetPosition(m_renderer.positionCount - 1, position);
+        }
+        else
+        {
+            Debug.Log("STRETCH: " + m_renderer.positionCount);
+            Vector3[] points = new Vector3[m_renderer.positionCount];
+            m_renderer.GetPositions(points);
+            Vector3[] newPoints = points.Skip(1).Append(position).ToArray();
+            m_renderer.SetPositions(newPoints);
+        }
         MakeLine();
     }
 
@@ -51,7 +64,7 @@ public class Line : MonoBehaviour
             linePoint -= transform.position;
             pointsAsVector2.Add(linePoint);
         }
-
+        
         edgeCollider2D.SetPoints(pointsAsVector2);
     }
 
@@ -69,9 +82,6 @@ public class Line : MonoBehaviour
         PolygonCollider2D polygonCollider2D = Instantiate(captureZonePrefab, transform.position, Quaternion.identity, transform);
         Vector3[] points = new Vector3[m_renderer.positionCount];
         m_renderer.GetPositions(points);
-
-
-
         // Apply the offset by subtracting the offset (here:  parent's local position) from each vertex position
         for (int i = 0; i < points.Length; i++)
         {

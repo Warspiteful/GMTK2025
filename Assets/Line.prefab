@@ -152,7 +152,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_renderer: {fileID: 8615609874366441004}
-  m_meshCollider: {fileID: 0}
+  maxPoints: 75
   captureZonePrefab: {fileID: 2418896680335781430, guid: a3d4e56be13ce3e4ea1ad8d357b1aed9, type: 3}
   edgeCollider2D: {fileID: 8328437433485137879}
 --- !u!68 &8328437433485137879
