@@ -56,7 +56,7 @@ public class DrawManager : MonoBehaviour
                 if (component.CaptureLoop())
                 {
                     currentExp += component.expGiven;
-                    Destroy(component.gameObject);
+                    component.gameObject.SetActive(false);
                 }
             }
         }

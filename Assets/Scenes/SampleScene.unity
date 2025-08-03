@@ -865,6 +865,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1840526037}
   - component: {fileID: 1840526036}
+  - component: {fileID: 1840526038}
   m_Layer: 0
   m_Name: FishManagement
   m_TagString: Untagged
@@ -884,6 +885,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2f667c6a09491e47a7b572d353101f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pool: {fileID: 1840526038}
   fishWaves:
   - fishSpawns:
     - fish: {fileID: 11400000, guid: 39a3ab297d964e14295d638ee6ad4778, type: 2}
@@ -906,6 +908,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1840526038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1840526035}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69b333a90e712cd4db52923b83261944, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pooledObjects: []
+  objectToPool: {fileID: 6798775904530280138, guid: 59e684b06ad629141b8ba7b404810a2d, type: 3}
+  amountToPool: 20
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

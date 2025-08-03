@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class FishManager : MonoBehaviour
 {
+    [SerializeField] private FishObjectPool pool;
     public List<FishWave> fishWaves;
 
     public FishObject fishPrefab;
@@ -21,8 +22,10 @@ public class FishManager : MonoBehaviour
         {
             for (int i = 0; i < wave.numberOfFish; i++)
             {
-                FishObject obj = Instantiate(fishPrefab);
+                FishObject obj = pool.GetPooledObject();
+                obj.transform.position = Utils.GetRandomPositionInView();
                 obj.Initialize(wave.fish);
+                obj.gameObject.SetActive(true);
             }
         }
     }

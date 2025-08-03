@@ -36,22 +36,9 @@ public class RandomMoveable : Moveable
         }
     }
 
-    public Vector3 GetRandomPositionInView()
-    {
-        float randomX = Random.Range(0f, 1f);
-        float randomY = Random.Range(0f, 1f);
-
-        Vector3 viewportPoint = new Vector3(randomX, randomY, 0);
-
-        Vector3 worldPoint = Camera.main.ViewportToWorldPoint(viewportPoint);
-        worldPoint.z = transform.position.z;
-
-        return worldPoint;
-    }
-
     void SetNewRandomTarget()
     {
-        Vector3 randomPosition = GetRandomPositionInView();
+        Vector3 randomPosition = Utils.GetRandomPositionInView();
         float distance = (randomPosition - transform.position).magnitude;
         Vector3 direction = (randomPosition - transform.position) / distance;
         float randomRadius = Random.Range(1f, movementRadius);
